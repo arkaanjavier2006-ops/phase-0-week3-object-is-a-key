@@ -4,7 +4,7 @@
 function cariModus(arr) {
     // you can only write your code here!
     
-    let dataPresent = {};
+    let dataPresent = {}; //create number in data as key + its frequency as value
     for(let i = 0; i<arr.length; i++){
         if(!dataPresent.hasOwnProperty(arr[i])){
             dataPresent[arr[i]] = 1;
@@ -18,7 +18,7 @@ function cariModus(arr) {
 
 
 
-    let modus = 0;
+    let modus = 0;  //linear search for finding mode
     let index;
     for(let key in dataPresent){
         if(dataPresent[key] > modus){
@@ -26,7 +26,15 @@ function cariModus(arr) {
             index = key
         }
     }
-    if (Object.keys(dataPresent).length <= 1 || modus == 1 ) {
+    
+    let allEqual = true; //check, if all number have the same frequency then return -1 because no valid mode
+    let dataPresentEntries = Object.entries(dataPresent);
+    for(let i=0; i<dataPresentEntries.length-1; i++){
+        allEqual = allEqual && (dataPresentEntries[i][1] == dataPresentEntries[i+1][1]);
+    }
+
+
+    if (Object.keys(dataPresent).length <= 1 || allEqual ) {
         return -1;
     }
     return index;
