@@ -11,19 +11,49 @@ Function akan menerima array yang berisikan object pembeli (nama pembeli, barang
 Function countProfit akan mengembalikan/me-return sebuah array of object dimana array tersebut berisi objek-objek barang dari toko X tersebut yang berisikan info nama barang, siapa saja yang membeli, sisa stock barang dan total pemasukan untuk barang tersebut
 */
 
-/*function countProfit(shoppers) {
+function countProfit(shoppers) {
     var listBarang = [['Sepatu Stacattu', 1500000, 10],
     ['Baju Zoro', 500000, 2],
     ['Sweater Uniklooh', 175000, 1]
     ];
-    for(items of listBarang){
-        let product = {};
-        let productName = 
-        product
-    }
-    // you can only write your code here!
-}*/
 
+    // you can only write your code here!
+    let dataBarang = {};
+    for(item of listBarang){
+        dataBarang[item[0]] = Object.fromEntries([['harga', item[1]], ['stock', item[2]], ['buyers',[]], ['totalProfit', 0]]);
+    }   //code 1
+    /*{
+        'Sepatu Stacattu': { harga: 1500000, stock: 10, shoppers: [], totalProfit: 0 },
+        'Baju Zoro': { harga: 500000, stock: 2, shoppers: [], totalProfit: 0 },
+        'Sweater Uniklooh': { harga: 175000, stock: 1, shoppers: [], totalProfit: 0 }
+    }*/  //hasil obj dari code 1
+    //console.log(dataBarang['Sepatu Stacattu'].stock);
+    for(transaction of shoppers){
+        //console.log(dataBarang[transaction.product].stock);
+        //console.log('-------');
+        if (['Sepatu Stacattu', 'Baju Zoro', 'Sweater Uniklooh'].includes(transaction.product) && transaction.amount <= dataBarang[transaction.product].stock){
+            dataBarang[transaction.product].buyers.push(transaction.name);
+           // console.log(dataBarang[transaction.product].buyers);
+          // console.log('------')
+            dataBarang[transaction.product].stock = dataBarang[transaction.product].stock - transaction.amount;
+            //console.log('-----');
+            //console.log(transaction.amount);
+            //console.log(dataBarang[transaction.product].harga);
+            dataBarang[transaction.product].totalProfit += transaction.amount*dataBarang[transaction.product].harga;
+            //console.log(`harga: ${dataBarang[transaction.product].totalProfit}`);
+            //console.log('===========')
+        }
+    }
+    let report = [];
+    for(product in dataBarang){
+        report.push({'product': product,
+                     'shoppers': dataBarang[product].buyers,
+                     'leftOver': dataBarang[product].stock,
+                     'totalProfit': dataBarang[product].totalProfit
+        });
+    }
+    return report;
+}
 // TEST CASES
 console.log(countProfit([{ name: 'Windi', product: 'Sepatu Stacattu', amount: 2 }, { name: 'Vanessa', product: 'Sepatu Stacattu', amount: 3 }, { name: 'Rani', product: 'Sweater Uniklooh', amount: 2 }]));
 //[ { product: 'Sepatu Stacattu',
@@ -65,4 +95,5 @@ console.log(countProfit([{ name: 'Windi', product: 'Sepatu Naiki', amount: 5 }])
 //     shoppers: [],
 //     leftOver: 1,
 //     totalProfit: 0 } ]
-console.log(countProfit([])); //[]
+//part3soal3.js
+// console.log(countProfit([])); //[]
